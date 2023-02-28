@@ -38,7 +38,7 @@ public class ClassBFS
     public int iHeight;
     public int iWidth;
 
-    //Dibujar el grid
+    //Dibujar nuestro grid
     private float fTileSize;
     private Vector3 v3OriginPosition;
 
@@ -89,76 +89,6 @@ public class ClassBFS
                 Nodes[y, x] = new NodeBFS(x, y);
             }
         }
-    }
-
-    //Buscamos un camino de start a end
-    public List<NodeBFS> DepthFirstSearch(int in_startX, int in_startY, int in_endX, int in_endY)
-    {
-
-        NodeBFS StartNode = GetNode(in_startY, in_startX);
-        NodeBFS EndNode = GetNode(in_endY, in_endX);
-
-        if (StartNode == null || EndNode == null)
-        {
-            //mensaje de error
-            Debug.LogError("Invalid coordinates in DepthFirstSearch");
-            return null;
-        }
-
-        Stack<NodeBFS> OpenList = new Stack<NodeBFS>();
-        List<NodeBFS> CloseList = new List<NodeBFS>();
-
-        OpenList.Push(StartNode);
-
-        while (OpenList.Count > 0)
-        {
-            //Mientras haya nodos en la lista abierta, vamos a buscar un camino.
-            // obtenemos el primer nodo de la lista abierta
-            NodeBFS currentNode = OpenList.Pop();
-            Debug.Log("Curent Node is: " + currentNode.x + "," + currentNode.y);
-
-            //Checamos su ya llegamos al destino
-            if (currentNode == EndNode)
-            {
-                //encontramos un camino
-                Debug.Log("Camino encontrado");
-                // Necesitamos construir
-                List<NodeBFS> path = Backtrack(currentNode);
-                EnumeratePath(path);
-                return path;
-            }
-
-
-            //otra posible solucion
-            if (CloseList.Contains(currentNode))
-            {
-                continue;
-            }
-
-            CloseList.Add(currentNode);
-
-
-            //Vamos a visitar a todos sus vecinos
-            List<NodeBFS> currentNeighbors = GetNeighbors(currentNode);
-
-
-            //Meterlos a la pila en el orden inversoo para que al sacarlos nos den el orden
-            for (int x = currentNeighbors.Count - 1; x >= 0; x--)
-            {
-                //Solo queremos nodos que no esten en la lista cerrada
-                if (currentNeighbors[x].bWalkable && !CloseList.Contains(currentNeighbors[x]))
-                {
-                    //Neighbours[x].gCost = CurrentTile.gCost +1;
-                    currentNeighbors[x].Parent = currentNode;
-                    OpenList.Push(currentNeighbors[x]);
-                }
-            }
-
-
-        }
-        Debug.LogError("No path found between start and end.");
-
-        return null;
     }
 
     public NodeBFS GetNode(int x, int y)
@@ -273,6 +203,7 @@ public class ClassBFS
 
         if (StartNode == null || EndNode == null)
         {
+            //Mensaje de error
             Debug.LogError("Invalid coordinates in DeepthFirstSearch");
             return null;
         }
@@ -287,18 +218,18 @@ public class ClassBFS
 
         while (OpenList.Count > 0)
         {
-            //Mientras haya nodos en la lista abierta, vamos a buscar un camino
-            //Obtenemos el primer nodo de la lista abierta
+            //Si hay nodos en la lista abierta,buscamos un camino.
+            //obtenemos el primer nodo de la lista abierta
             NodeBFS currentNode = OpenList.Dequeue();
             Debug.Log("Current Node is: " + currentNode.x + ", " + currentNode.y);
 
-            //Checamos si llegamos al destino
+            //Revisamos si llega al destino
             if (currentNode == EndNode)
             {
-                //Encontramos un camino.
+                //Enncuetra el camino
                 Debug.Log("Camino encontrado");
 
-                //Necesitamos construir ese camino. Para eso hacemos backtracking
+                //Creamos el camino con backtracking
                 List<NodeBFS> path = Backtrack(currentNode);
                 EnumeratePath(path);
 
@@ -313,7 +244,7 @@ public class ClassBFS
 
             ClosedList.Add(currentNode);
 
-            //Vamos a visitar los vecinos de la derecha y arriba
+            //Visitamos los vecinos de la derecha y arriba
             List<NodeBFS> currentNeighbors = GetNeighbors(currentNode);
 
             foreach (NodeBFS neighbor in currentNeighbors)
@@ -326,7 +257,7 @@ public class ClassBFS
 
                 //Lo mandamos a llamar para cada vecino
                 OpenList.Enqueue(neighbor);
-                //Ajustamos la prioridad, para que cada nuevo que entre sea añada al último
+                //Ajustamos la prioridad
                 iP++;
             }
 

@@ -7,8 +7,7 @@ public class PathFindingTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //ClassGrid myTest = new ClassGrid(5, 5);
-        //myTest.DepthFirstSearch(0, 0, 4, 4);
+        //Llamamos a nuestro BreadthFirstSearch y le decimos su punto de inicio y final
         ClassBFS myTest = new ClassBFS(5, 5);
         myTest.BreadthFirstSearch(0, 0, 4, 4);
     }
