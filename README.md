@@ -4,6 +4,8 @@ Primera entrega 2ndo Parcial proyecto
 
 # Entrega proyecto 2ndo Parcial
 
+-El proyecto se encuentra en la escena Proyecto 2ndo parcial
+
 ## Equipo: Erick Hernandez y Diego Quintero
 
 Dudas:
