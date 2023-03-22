@@ -4,6 +4,8 @@ Primera entrega 2ndo Parcial proyecto
 
 # Entrega proyecto 2ndo Parcial
 
+## Equipo: Erick Hernandez y Diego Quintero
+
 Dudas:
 Mejor explicacion de este punto
 d. Si se selecciona el nodo inicio para pathfinding como el nodo fin para pathfinding (o
