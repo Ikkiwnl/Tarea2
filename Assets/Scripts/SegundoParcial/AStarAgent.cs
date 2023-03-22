@@ -10,7 +10,7 @@ public class AStarAgent : NewSteeringBehaviors
     private SpriteRenderer color;
 
     public List<Vector3> Path = null;
-    int i_CurrentWaypoint = 0;
+    int i_currentWaypoint = 0;
 
     public PathFindingTest Pathfinding;
     ClassGrid s_Grid;
@@ -42,17 +42,17 @@ public class AStarAgent : NewSteeringBehaviors
 
         if (Path != null && Selected == true)
         {
-            float f_Distance = (Path[i_CurrentWaypoint] - transform.position).magnitude;
-            Debug.Log("FDistance to Point is: " + f_Distance);
+            float f_Distance = (Path[i_currentWaypoint] - transform.position).magnitude;
+            Debug.Log("fDistance to Point is: " + f_Distance);
 
-            if (f_NearArea > f_Distance && i_CurrentWaypoint != Path.Count - 1)
+            if (f_NearArea > f_Distance && i_currentWaypoint != Path.Count - 1)
             {
 
-                i_CurrentWaypoint++;
-                i_CurrentWaypoint = math.min(i_CurrentWaypoint, Path.Count - 1);
+                i_currentWaypoint++;
+                i_currentWaypoint = math.min(i_currentWaypoint, Path.Count - 1);
             }
 
-            v3SteeringForce = i_CurrentWaypoint == Path.Count - 1 ? Seek(Path[i_CurrentWaypoint]) : Arrive(Path[i_CurrentWaypoint]);
+            v3SteeringForce = i_currentWaypoint == Path.Count - 1 ? Seek(Path[i_currentWaypoint]) : Arrive(Path[i_currentWaypoint]);
 
 
             r_myRigidbody.AddForce(v3SteeringForce, ForceMode.Acceleration);  //Aceleración ignora la masa
@@ -60,8 +60,12 @@ public class AStarAgent : NewSteeringBehaviors
             //Clamp es para que no exceda la velocidad máxima
             r_myRigidbody.velocity = Vector3.ClampMagnitude(r_myRigidbody.velocity, f_maxSpeed);
 
+
+
+
         }
     }
+
 
 
     private void OnMouseOver()
@@ -85,5 +89,8 @@ public class AStarAgent : NewSteeringBehaviors
 
 
     }
+
+
+
 
 }
