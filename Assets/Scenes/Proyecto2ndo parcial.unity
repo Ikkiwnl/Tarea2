@@ -237,6 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Height: 5
   Width: 5
+  fTileSize: 10
   Initx: 0
   Inity: 0
   Endx: 4
@@ -253,6 +254,7 @@ MonoBehaviour:
   b_InitialPoint: 0
   b_EndPoint: 0
   b_Ready: 0
+  b_PathR: 0
 --- !u!4 &662796881
 Transform:
   m_ObjectHideFlags: 0
@@ -299,7 +301,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98c559a029525f543bd317e07ebbc7a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  r_myRigidbody: {fileID: 1122711187}
+  f_MaxSpeed: 4
+  f_ArriveRadius: 2
+  f_MaxForce: 6
+  b_UseArrive: 0
   Selected: 0
+  Path:
+  - {x: 0, y: 0, z: 0}
+  Pathfinding: {fileID: 662796880}
+  f_NearArea: 1
 --- !u!136 &1122711186
 CapsuleCollider:
   m_ObjectHideFlags: 0
