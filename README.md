@@ -1,7 +1,8 @@
-# Tarea2
+## Tarea2
 Creamos la funcion Breath First Search con una Queue
 Primera entrega 2ndo Parcial proyecto
 
+#Entrega proyecto 2ndo Parcial
 
 Dudas:
 Mejor explicacion de este punto
