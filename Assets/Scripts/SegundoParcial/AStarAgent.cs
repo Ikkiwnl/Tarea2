@@ -1,16 +1,21 @@
+//Controla a nuestro agente y le heredamos steering behaviors
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
+using System;
 
 public class AStarAgent : NewSteeringBehaviors
 {
-    // Start is called before the first frame update
+    //Usamos una booleana para saber si nuestro agente ya fue seleccionado
     public bool Selected = false;
+    //Color del agente apra informacion visual
     private SpriteRenderer color;
 
+    //Usamos una lsita para nuestro camino
     public List<Vector3> Path = null;
-    int i_currentWaypoint = 0;
+    //El nodo actual
+    int i_CurrentWaypoint = 0;
 
     public PathFindingTest Pathfinding;
     ClassGrid s_Grid;
@@ -23,9 +28,10 @@ public class AStarAgent : NewSteeringBehaviors
         s_Grid = Pathfinding.myTest;
     }
 
-    // Update is called once per frame
+   
     void Update()
     {
+        //Una vez que los puntos de inicio y final este puestos comenzamos a buscar el camino
         if (Pathfinding.b_PathR == true)
         {
             Path = s_Grid.ConvertBacktrackToWorldPos(Pathfinding.Pathfinding_result);
@@ -42,17 +48,17 @@ public class AStarAgent : NewSteeringBehaviors
 
         if (Path != null && Selected == true)
         {
-            float f_Distance = (Path[i_currentWaypoint] - transform.position).magnitude;
+            float f_Distance = (Path[i_CurrentWaypoint] - transform.position).magnitude;
             Debug.Log("fDistance to Point is: " + f_Distance);
 
-            if (f_NearArea > f_Distance && i_currentWaypoint != Path.Count - 1)
+            if (f_NearArea > f_Distance && i_CurrentWaypoint != Path.Count - 1)
             {
 
-                i_currentWaypoint++;
-                i_currentWaypoint = math.min(i_currentWaypoint, Path.Count - 1);
+                i_CurrentWaypoint++;
+                i_CurrentWaypoint = math.min(i_CurrentWaypoint, Path.Count - 1);
             }
 
-            v3SteeringForce = i_currentWaypoint == Path.Count - 1 ? Seek(Path[i_currentWaypoint]) : Arrive(Path[i_currentWaypoint]);
+            v3SteeringForce = i_CurrentWaypoint == Path.Count - 1 ? Seek(Path[i_CurrentWaypoint]) : Arrive(Path[i_CurrentWaypoint]);
 
 
             r_myRigidbody.AddForce(v3SteeringForce, ForceMode.Acceleration);  //Aceleración ignora la masa
@@ -71,6 +77,7 @@ public class AStarAgent : NewSteeringBehaviors
     private void OnMouseOver()
     {
 
+        //Clic izquierdo para seleccionar agente
         if (Input.GetMouseButtonDown(0))
         {
             Selected = true;
@@ -79,6 +86,7 @@ public class AStarAgent : NewSteeringBehaviors
             r_myRigidbody.isKinematic = false;
         }
 
+        //Clic derecho para deseleccionar a nuestro agente
         if (Input.GetMouseButtonDown(1))
         {
             Selected = false;
@@ -89,8 +97,6 @@ public class AStarAgent : NewSteeringBehaviors
 
 
     }
-
-
 
 
 }

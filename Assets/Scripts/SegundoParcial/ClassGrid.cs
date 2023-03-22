@@ -1,3 +1,5 @@
+//Esta clase se encarga del correcto funcionamiento de nuestro proyecto
+//Aqui integramos los nodos en el grid y el pathfinding y funciones necesarias para la busqueda
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,13 +21,13 @@ public class Node
     //public List<Node> Neighbors;
     public Node Parent;
 
-    // a* 
-    public float g_Cost;
-    public float h_Cost;
-    public float f_Cost;
+    // sirve para a* y djikstra
+    public float g_Cost; //Costo final que tendra el nodo
+    public float h_Cost; //Costo de haber llegado a este nodo
+    public float f_Cost; //Costo relacionado con la heuristica del algoritmo pathfinding
 
-    public float fTerrainCost;
-    public bool bWalkable;
+    public float fTerrainCost; //Costo de parase sobre un nodo
+    public bool bWalkable;      //Para saber si se puede caminar sobre un nodo o no
 
     public Node(int in_x, int in_y)
     {
@@ -111,7 +113,7 @@ public class ClassGrid
 
 
 
-    //Quiero encontrar un camino de start a end
+    //Buscamos encontrar un camino de start a end
     public List<Node> DepthFirstSearch(int in_startX, int in_startY, int in_endX, int in_endY)
     {
 
@@ -137,12 +139,12 @@ public class ClassGrid
             Node currentNode = OpenList.Pop();
             Debug.Log("Curent Node is: " + currentNode.x + "," + currentNode.y);
 
-            //Checamos su ya llegamos al destino
+            //Checamos si llegamos al destino
             if (currentNode == EndNode)
             {
                 //encontramos un camino
                 Debug.Log("Camino encontrado");
-                // Necesitamos construir
+                //construimos
                 List<Node> path = Backtrack(currentNode);
                 EnumeratePath(path);
                 return path;
@@ -242,12 +244,15 @@ public class ClassGrid
         foreach (Node n in in_path)
         {
             iCounter++;
+            //Metemos el costo de nodos y el color
             debugTextArray[n.y, n.x].text = n.ToString() +
                  Environment.NewLine + "Step: " + iCounter.ToString() +
                  Environment.NewLine + "gCost: " + n.g_Cost.ToString() +
                   Environment.NewLine + "hCost: " + n.h_Cost.ToString() +
                    Environment.NewLine + "hCost: " + n.f_Cost.ToString();
+            //El color
             debugTextArray[n.y, n.x].color = Color.red;
+            //Taman;o de letra
             debugTextArray[n.y, n.x].fontSize = 15;
 
 
@@ -270,13 +275,21 @@ public class ClassGrid
             in_color = Color.white;
 
         GameObject MyObject = new GameObject(in_text, typeof(TextMesh));
+        //Agregamos colliders
         MyObject.AddComponent<BoxCollider>();
+        //Referenciamos el collider
         BoxCollider m_Collider = MyObject.GetComponent<BoxCollider>();
+        //Taman;o del collider
         m_Collider.size = new Vector3(9.5f, 9.5f, 0);
+        //Centro de nuestro collider
         m_Collider.center = Vector3.zero;
+        //Activamos su tipo de trigger
         m_Collider.isTrigger = true;
+        //Agregamos el script para cada nodo
         MyObject.AddComponent<GridTile>();
+        //Referenciamos el codigo
         GridTile Script = MyObject.GetComponent<GridTile>();
+        //Nos permite tener los indices del codigo referenciado
         Script.GetIndex(x, y);
         MyObject.transform.parent = in_parent;
         MyObject.transform.localPosition = in_localPosition;
@@ -573,6 +586,7 @@ public class ClassGrid
         return null;
     }
 
+    //Funcion de pathfinding en A*
     public List<Node> AStarSearch(int in_startX, int in_startY, int in_endX, int in_endY)
     {
 
@@ -613,6 +627,7 @@ public class ClassGrid
                 List<Node> path = Backtrack(currentNode);
 
                 EnumeratePath(path);
+                //Da color a la lista cerrada
                 ChangeColor(ClosedList);
 
                 return path;
@@ -663,6 +678,7 @@ public class ClassGrid
 
             foreach (Node n in OpenList.Nodes)
             {
+                //Costos color de cada nodo de la lista abierta
                 Debug.Log("n Node is: " + n.x + ", " + n.y + ", value= " + n.f_Cost);
                 debugTextArray[n.y, n.x].color = Color.green;
                 debugTextArray[n.y, n.x].fontSize = 15;

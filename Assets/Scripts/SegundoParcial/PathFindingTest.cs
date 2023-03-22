@@ -1,3 +1,4 @@
+//Crea el grid y el pathfinding en nuetra escena
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,23 +37,8 @@ public class PathFindingTest : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        //Creamos el grid
         myTest = new ClassGrid(Height, Width, fTileSize);
-        //myTest.DepthFirstSearch(0, 0, 4, 4);
-
-        //ClassGrid myTest = new ClassGrid(5, 5);
-        //myTest.BreadthFirstSearch(2, 2, 1, 1);
-
-        //ClassGrid myTest = new ClassGrid(5, 5);
-        //myTest.BestFirstSearch(0, 0, 4, 4);
-
-        //GridQueue myTest = new GridQueue(Height, Width);
-        //myTest.BreadthFirstSearch(Initx, Inity, Endx, Endy);
-
-        //myTest.AStarSearch(0, 0, 4, 4);
-        //myTest.AStarSearch(0, 1, 4, 0);
-
-
-
     }
 
     // Update is called once per frame
@@ -64,9 +50,12 @@ public class PathFindingTest : MonoBehaviour
             position.z = 0f;
         }
 
+
+        //Usamos una booleana para saber si los dos puntos ya fueron seleccionados
         if (b_InitialPoint == true && b_EndPoint == true)
             b_Ready = true;
 
+        //Incializamos el pathfinding con barra espaciadora
         if (b_Ready == true && Input.GetKeyDown("space"))
         {
             GridTile s_InitialPoint = go_InitialPoint.GetComponent<GridTile>();
@@ -79,16 +68,11 @@ public class PathFindingTest : MonoBehaviour
                 WorldPositionPathfinding.Add(myTest.GetWorldPosition(n.x, n.y));
             }
 
-
+            //Nuestro pathfinging esta listo
             b_PathR = true;
         }
 
 
     }
 
-
-    public void RestartScene()
-    {
-        SceneManager.LoadScene(0);
-    }
 }
